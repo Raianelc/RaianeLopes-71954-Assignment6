@@ -1,4 +1,4 @@
-package com.stu71954.raianelopes_71954_assignment6
+package com.stu71954.raianelopes_71954_assignment6.maps
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.CameraPosition
@@ -40,8 +42,8 @@ fun MapScreen() {
                 .setMinUpdateIntervalMillis(1000)
                 .setMaxUpdateDelayMillis(1000)
                 .build()
-            fusedLocationClient.requestLocationUpdates(locationRequest, object : com.google.android.gms.location.LocationCallback() {
-                override fun onLocationResult(locationResult: com.google.android.gms.location.LocationResult) {
+            fusedLocationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult) {
                     userLocation = locationResult.lastLocation
                     fusedLocationClient.removeLocationUpdates(this)
                 }

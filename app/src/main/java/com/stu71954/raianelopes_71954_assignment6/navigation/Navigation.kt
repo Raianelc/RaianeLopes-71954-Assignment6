@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.stu71954.raianelopes_71954_assignment6.home.HomeScreen
 import com.stu71954.raianelopes_71954_assignment6.loginUser.LoginScreen
+import com.stu71954.raianelopes_71954_assignment6.maps.MapScreen
 
 @Composable
 fun AppNavigation() {
@@ -15,7 +15,7 @@ fun AppNavigation() {
     Surface(color = MaterialTheme.colorScheme.background) {
         NavHost(navController = navController, startDestination = "login") {
             composable("login") { LoginScreen(navController) }
-            composable("home") { HomeScreen() }
+            composable("home") { MapScreen() }
         }
     }
 }
