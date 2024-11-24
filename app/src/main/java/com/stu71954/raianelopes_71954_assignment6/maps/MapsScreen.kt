@@ -19,19 +19,26 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
+// Here I put the MapScreen composable function that is responsible for displaying the Map Screen of the application.
 @OptIn(ExperimentalPermissionsApi::class)
 @SuppressLint("MissingPermission")
 @Composable
 fun MapScreen(modifier: Modifier = Modifier) {
+    // State to hold the user's location
     var userLocation by remember { mutableStateOf<Location?>(null) }
     val context = LocalContext.current
+
+    // State to manage location permissions
     val locationPermissionsState = rememberMultiplePermissionsState(
         permissions = listOf(
+            // Permission to access the coarse location
             Manifest.permission.ACCESS_COARSE_LOCATION,
+            // Permission to access the fine location
             Manifest.permission.ACCESS_FINE_LOCATION
         )
     )
 
+    // Effect to request location updates when permissions are granted
     LaunchedEffect(key1 = locationPermissionsState.allPermissionsGranted) {
         if (locationPermissionsState.allPermissionsGranted) {
             val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -42,18 +49,23 @@ fun MapScreen(modifier: Modifier = Modifier) {
                 .build()
             fusedLocationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
                 override fun onLocationResult(locationResult: LocationResult) {
+                    // Update the user's location
                     userLocation = locationResult.lastLocation
+                    // Remove location updates after getting the location
                     fusedLocationClient.removeLocationUpdates(this)
                 }
             }, null)
         } else {
+            // Request permissions if not granted
             locationPermissionsState.launchMultiplePermissionRequest()
         }
     }
 
+    // Box to contain the map or permission request UI
     Box(modifier = modifier) {
         if (locationPermissionsState.allPermissionsGranted) {
             userLocation?.let {
+                // Display the map with the user's location
                 GoogleMap(
                     modifier = Modifier.fillMaxSize(),
                     cameraPositionState = rememberCameraPositionState {
@@ -62,15 +74,18 @@ fun MapScreen(modifier: Modifier = Modifier) {
                         )
                     }
                 ) {
+                    // Add a marker at the user's location
                     Marker(
                         state = MarkerState(position = LatLng(it.latitude, it.longitude)),
                         title = "My Location"
                     )
                 }
             } ?: run {
+                // Display a message while fetching the location
                 Text("Fetching location...", modifier = Modifier.fillMaxSize())
             }
         } else {
+            // Display a message and button to request permissions
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,

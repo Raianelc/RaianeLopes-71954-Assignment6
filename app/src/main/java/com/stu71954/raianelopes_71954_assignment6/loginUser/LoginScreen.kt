@@ -27,8 +27,16 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.stu71954.raianelopes_71954_assignment6.R
 import com.stu71954.raianelopes_71954_assignment6.R.drawable
+
+
+//Here I put the LoginScreen composable function that is responsible for displaying the Login Screen of the application using the Column composable function.
+//Using firebase authentication to authenticate the user and navigate to the Home Screen if the user is authenticated successfully.
+//If the user is not authenticated successfully, an error message will be displayed.
+/*
+email: raiane@gmail.com
+password: 485923
+ */
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
