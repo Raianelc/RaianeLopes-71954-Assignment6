@@ -109,7 +109,8 @@ fun MapScreen(modifier: Modifier = Modifier) {
                         Marker(
                             state = MarkerState(position = it),
                             title = "Custom Location",
-                            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)
+                            icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE
+                            )
                         )
                     }
                 }
