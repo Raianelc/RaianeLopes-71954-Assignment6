@@ -41,10 +41,11 @@ fun MapScreen(modifier: Modifier = Modifier) {
             Manifest.permission.ACCESS_FINE_LOCATION
         )
     )
+    // Remember the camera position state
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 5f)
     }
-
+    // Request location updates when the location permissions are granted
     LaunchedEffect(key1 = locationPermissionsState.allPermissionsGranted) {
         if (locationPermissionsState.allPermissionsGranted) {
             val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
@@ -63,7 +64,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
             locationPermissionsState.launchMultiplePermissionRequest()
         }
     }
-
+    // Update the camera position when the marker position changes
     LaunchedEffect(markerPosition) {
         markerPosition?.let {
             cameraPositionState.animate(CameraUpdateFactory.newLatLng(it))
@@ -100,6 +101,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
             ) {
                 Text("Set Marker")
             }
+            // Display the map if the location permissions are granted
             if (locationPermissionsState.allPermissionsGranted) {
                 GoogleMap(
                     modifier = Modifier.fillMaxSize(),
